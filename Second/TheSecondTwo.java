@@ -25,7 +25,7 @@ public class TheSecondTwo{
 
         //System.out.println(curr);
         int posTwo = Integer.parseInt(curr.substring(curr.indexOf("-")+1, curr.indexOf(' ')))-1;
-          System.out.println("Position two: " + posTwo);
+          //System.out.println("Position two: " + posTwo);
         char letter = curr.charAt(curr.indexOf(" ")+1);
         char[] pw = curr.substring(curr.indexOf(":")+2,curr.length()).toCharArray();
 

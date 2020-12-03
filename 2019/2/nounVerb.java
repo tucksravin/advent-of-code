@@ -30,7 +30,7 @@ origin = receive;
           ck.set(2,j);
           hi = new IntComp(ck);
           if(hi.run(0)==19690720)
-          {
+          {]
             System.out.println(i*100+j);
           }
         }

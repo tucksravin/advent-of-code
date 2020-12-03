@@ -17,6 +17,7 @@ public class TheThirdOne{
 
         int bruises = 0;
         int pos = 0;
+  
 
         //System.out.println(trees.size());
 
@@ -25,9 +26,6 @@ public class TheThirdOne{
           //System.out.println(trees.get(j).charAt(pos%trees.get(0).length()));
           if(trees.get(j).charAt(pos%trees.get(0).length())=='#')
               bruises++;
-
-
-
           pos = pos+3;
         }
 

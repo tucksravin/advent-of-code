@@ -99,16 +99,17 @@ public class crosses{
 
         LinkedList<Coords> meetings = new LinkedList<Coords>();
 
-        Coords originOld = new Coords();;
+        Coords originOld = new Coords();
         Coords originNow = witOne.next();
         Coords compOld = new Coords();
-        Coords compNow = witTwo.next();;
+        Coords compNow = witTwo.next();
 
         while(witOne.hasNext()){
           originOld = originNow;
           originNow = witOne.next();
 
           witTwo = wireTwo.iterator();
+          compNow = witTwo.next();
 
           if(originOld.x()==originNow.x())
           {
@@ -127,12 +128,12 @@ public class crosses{
           }
           else
           {
-            xc = compOld.x();
+            yc = originOld.y();
 
             while(witTwo.hasNext()){
                 compOld = compNow;
                 compNow = witTwo.next();
-                yc = originNow.y();
+                xc = compNow.x();
 
                 if(((xc>originOld.x()&&xc<originNow.x())||(xc<originOld.x()&&xc>originNow.x()))&&(((yc<compOld.y())&&(yc>compNow.y()))||((yc>compOld.y())&&(yc<compNow.y())))){
                 //  System.out.println("  Match!");

@@ -3,12 +3,14 @@ import java.io.*;
 
 
 //template: put date and number here
-public class Bags{
+public class Nest{
   public static void main(String args[]){
       try (Scanner input = new Scanner(new File("input.txt"))) {
 
         LinkedList<Color> catalog = new LinkedList<Color>();
-        LinkedList<Color> interior = new LinkedList<Color>();
+        LinkedList<AbstractMap.SimpleEntry<Color, Integer>> interior = new LinkedList<AbstractMap.SimpleEntry<Color,Integer>>();
+
+
 
         String rule;
 
@@ -34,24 +36,39 @@ public class Bags{
           en = rule.substring(0, rule.indexOf("bags")-1);
           ec = new Color(en);
           ec = unique(catalog, ec);
-          interior = new LinkedList<Color>();
+
+          interior = new LinkedList<AbstractMap.SimpleEntry<Color,Integer>>();
+          AbstractMap.SimpleEntry<Color,Integer> ent;
+
 
           ics = rule.substring(rule.indexOf("contain")+7);
 
           Scanner sc = new Scanner(ics);
 
           int i = 0;
+          int num=-1;
+          String token;
 
           while(sc.hasNext())
           {
 
             //int
-            if(i==0&&sc.next().equals("no"))
-                {
+            if(i==0)
+            {
+
+            token = sc.next();
+            if(token.equals("no"))
+              {
                   sc.next();
                   sc.next();
                   i=-1;
-                }
+              }
+            else
+              {
+                num = Integer.parseInt(token);
+              }
+
+            }
 
             if(i==1)
               {
@@ -60,7 +77,7 @@ public class Bags{
 
                 ic = unique(catalog, ic);
 
-                interior.add(ic);
+                interior.add(new AbstractMap.SimpleEntry<Color,Integer>(ic, num));
                 }
 
             if(i==2)
@@ -77,49 +94,22 @@ public class Bags{
 
         }
 
-
-
         Iterator<Color> it = catalog.iterator();
-
-        Color on;
-
-        LinkedList<Color> empty = new LinkedList<Color>();
-        LinkedList<Color> children = new LinkedList<Color>();
-
-        while(it.hasNext())
-          {
-
-            empty = new LinkedList<Color>();
-
-             on = it.next();
-
-            //   System.out.println(on.toString());
-               //System.out.println();
-
-               children = checkContents(empty, on);
-               children.remove(0);
-
-               on.addColor(children);
-
-               //removeDuplicates(catalog);
-          }
-
-          it = catalog.iterator();
-          int gold = 0;
-          Color n;
 
           while(it.hasNext())
             {
-              n = it.next();
-              //System.out.println(n.toString());
+              Color n = it.next();
+              if(n.name().equals("shiny gold"))
+              {
+                System.out.print("Gold bag contains ");
+                System.out.print(howManyBags(n,1)-1);
+                System.out.println(" bags.");
 
-              if(n.holdsG())
-                gold++;
 
+              }
 
             }
 
-            System.out.println(gold);
 
 
 
@@ -130,6 +120,11 @@ catch (IOException e) {
 
 
 }
+
+
+
+
+
 
 public static Color unique(LinkedList<Color> catalog, Color check)
 {
@@ -154,25 +149,8 @@ public static Color unique(LinkedList<Color> catalog, Color check)
 
 }
 
-public static LinkedList<Color> checkContents(LinkedList<Color> ckd, Color start)
-{
-  Iterator <Color> ab = start.below().iterator();
-  //System.out.println("2");
 
-  if(!ckd.contains(start))
-  {
-    ckd.add(start);
-    //System.out.println("added "+start.name());
 
-      while(ab.hasNext())
-        {
-          checkContents(ckd, ab.next());
-        }
-    }
-
-    return ckd;
-
-  }
 
   public static void removeDuplicates(LinkedList<Color> list)
   {
@@ -190,6 +168,31 @@ public static LinkedList<Color> checkContents(LinkedList<Color> ckd, Color start
 
         list= out;
 
-          }
+    }
+
+    public static int howManyBags(Color init, int multiplier)
+    {
+      if(!init.below().isEmpty()){
+
+        System.out.println();
+        System.out.println(init.name());
+        System.out.println(multiplier);
+
+      int c = 1;
+      AbstractMap.SimpleEntry<Color,Integer> curr;
+      Iterator <AbstractMap.SimpleEntry<Color,Integer>> it = init.below().iterator();
+      while(it.hasNext())
+        {
+          curr = it.next();
+          c=c+howManyBags(curr.getKey(), curr.getValue());
+        }
+
+      return multiplier*c;
+    }
+    else
+      return multiplier;
+
+    }
+
 
     }

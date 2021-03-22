@@ -5,25 +5,17 @@ import java.io.*;
 public class Color{
 
   private String c;
-  private boolean gold;
-  private LinkedList<Color> hold;
+  private LinkedList<AbstractMap.SimpleEntry<Color, Integer>> hold;
 
   public Color(String col)
   {
     c = col;
-    gold=false;
-    hold = new LinkedList<Color>();
+    hold = new LinkedList<AbstractMap.SimpleEntry<Color,Integer>>();
   }
 
-  public void setG()
-  {
-    gold = true;
-  }
 
-  public boolean holdsG()
-  {
-    return gold;
-  }
+
+
 
   public String name()
   {
@@ -35,44 +27,24 @@ public class Color{
     return hold.contains(q);
   }
 
-  public void addColor(Color a){
-    if(!hold.contains(a.name()))
+  public void addColor(AbstractMap.SimpleEntry<Color, Integer> a){
+    if(!hold.contains(a.getKey().name()))
       hold.add(a);
+
+
   }
 
-  public void addColor(LinkedList<Color> a){
-    Iterator<Color> it = a.iterator();
+  public void addColor(LinkedList<AbstractMap.SimpleEntry<Color, Integer>> a){
+    Iterator<AbstractMap.SimpleEntry<Color, Integer>> it = a.iterator();
 
     while(it.hasNext())
       this.addColor(it.next());
   }
 
-  public LinkedList<Color> below()
+  public LinkedList<AbstractMap.SimpleEntry<Color, Integer>> below()
   {
     return hold;
   }
-
-
-  public void removeDuplicates()
-  {
-    LinkedList<Color> out = new LinkedList<Color>();
-    LinkedList<Color> in = hold;
-    Iterator<Color> curr = in.iterator();
-    Color check;
-
-    while(!in.isEmpty())
-      {  check = in.remove();
-        out.add(check);
-
-        while(in.remove(check));
-      }
-
-        hold = out;
-
-          }
-
-
-
 
 
   public boolean equals(Color comp){
@@ -83,10 +55,13 @@ public class Color{
   public String toString()
   {
     String o = c + " can contain: ";
-    Iterator<Color> it = hold.iterator();
+    Iterator<AbstractMap.SimpleEntry<Color,Integer>> it = hold.iterator();
+    AbstractMap.SimpleEntry<Color,Integer> h;
+
     while(it.hasNext())
       {
-        o = o + it.next().name() +", ";
+        h = it.next();
+        o = o + " " + h.getValue()+ " " + h.getKey().name() +", ";
       }
 
     o = o.substring(0, o.length()-2);
